@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: #0e0e10;
+  --color-ink-soft: #17171b;
+  --color-paper: #fafaf8;
+  --color-paper-2: #f2f1ec;
+  --color-accent: #f6c451;
+  --color-accent-soft: #fbe6a8;
+  --color-muted: #8a8a8f;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 9s ease-in-out infinite;
+  --animate-drift: drift 12s ease-in-out infinite;
+  --animate-spin-slow: spin 22s linear infinite;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --background: var(--color-paper);
+  --foreground: var(--color-ink);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* --- keyframes --- */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(3deg);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(14px, -10px);
+  }
+  66% {
+    transform: translate(-10px, 8px);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* --- scroll reveal (see components/Reveal) --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.8s var(--ease-out-soft),
+    transform 0.8s var(--ease-out-soft);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* entrance for hero elements */
+.enter {
+  animation: fadeUp 0.9s var(--ease-out-soft) both;
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* thin dashed card border like the prototype */
+.dash {
+  border: 1px dashed color-mix(in srgb, currentColor 28%, transparent);
+}
